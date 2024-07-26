@@ -1,0 +1,45 @@
+{% extends "base.html"%}
+{% block title%}AI{% endblock %}
+{% block content%}
+<center>
+    <button type="submit" id="runScriptButton" class="btn btn-info p-5 m-5 rounded-circle btn-lg"><i class="fa fa-microphone"  style="font-size:48px;"></i></button>
+    <h3>Tap to chat!</h3>
+</center>
+{% endblock %}
+{% block addScript%}
+<style>
+    #runScriptButton {
+        background-color: blue;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+    }
+
+    #runScriptButton.clicked {
+        background-color: green;
+    }
+
+    #output {
+        margin-top: 20px;
+        white-space: pre-wrap; /* Preserve whitespace */
+    }
+</style>
+<script>
+    document.getElementById('runScriptButton').addEventListener('click', () => {
+        const button = document.getElementById('runScriptButton');
+        button.classList.add('clicked');
+
+        fetch('/run-script', {
+            method: 'POST'
+        })
+        .then(response => response.json())
+        .then(data => {button.classList.remove('clicked')})
+        .catch(error => {
+            console.error('Error:', error);
+        });
+        setTimeout(() => { console.log('5 seconds passed'); }, 5000);
+        
+    });
+</script>
+{% endblock %}
